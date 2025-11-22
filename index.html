@@ -1,369 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reflekt - Know Thyself</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            color: #e0e0e0;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            animation: fadeIn 1s ease-in;
-        }
-
-        .logo {
-            font-size: 3em;
-            font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
-        }
-
-        .tagline {
-            font-size: 1.2em;
-            color: #a0a0a0;
-            font-style: italic;
-        }
-
-        .intro {
-            text-align: center;
-            padding: 60px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-            animation: slideUp 1s ease-out 0.3s both;
-        }
-
-        .intro h2 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #ffffff;
-        }
-
-        .intro p {
-            font-size: 1.2em;
-            line-height: 1.8;
-            color: #b0b0b0;
-            margin-bottom: 20px;
-        }
-
-        .guides-section {
-            padding: 40px 20px;
-            animation: fadeIn 1.5s ease-in 0.6s both;
-        }
-
-        .guides-section h3 {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 40px;
-            color: #ffffff;
-        }
-
-        .guides-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .guide-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 30px;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .guide-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
-        }
-
-        .guide-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: #667eea;
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
-        }
-
-        .guide-card:hover::before {
-            opacity: 0.1;
-        }
-
-        .guide-icon {
-            font-size: 3em;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .guide-card h4 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            color: #ffffff;
-        }
-
-        .guide-card p {
-            color: #b0b0b0;
-            line-height: 1.6;
-        }
-
-        .journey-btn {
-            display: block;
-            width: fit-content;
-            margin: 40px auto;
-            padding: 18px 50px;
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #ffffff;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
-        }
-
-        .journey-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
-        }
-
-        .journey-btn:active {
-            transform: translateY(-1px);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            padding: 40px;
-            border-radius: 20px;
-            max-width: 600px;
-            width: 90%;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: slideUp 0.4s ease;
-        }
-
-        .modal-content h3 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            color: #ffffff;
-        }
-
-        .modal-content p {
-            font-size: 1.1em;
-            line-height: 1.8;
-            color: #b0b0b0;
-            margin-bottom: 30px;
-        }
-
-        .close-modal {
-            padding: 12px 30px;
-            font-size: 1.1em;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .close-modal:hover {
-            background: #764ba2;
-            transform: scale(1.05);
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: #666;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 60px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reflekt - AI-Powered Therapy</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      color: #e0e0e0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #landing-page { text-align: center; animation: fadeIn 0.8s ease-in; }
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, #8e44ad, #3498db);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle { font-size: 1.2rem; color: #95a5a6; margin-bottom: 3rem; }
+    .guides-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      padding: 2rem;
+    }
+    .guide-card {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 15px;
+      padding: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .guide-card:hover {
+      transform: translateY(-10px);
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(142,68,173,0.5);
+      box-shadow: 0 10px 30px rgba(142,68,173,0.3);
+    }
+    .guide-avatar { font-size: 4rem; margin-bottom: 1rem; }
+    .guide-name { font-size: 1.5rem; margin-bottom: 0.5rem; color: #ecf0f1; }
+    .guide-description { font-size: 0.9rem; color: #7f8c8d; }
+    #chat-interface {
+      display: none;
+      width: 90%;
+      max-width: 800px;
+      background: rgba(20,20,30,0.9);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      overflow: hidden;
+      animation: slideIn 0.5s ease-out;
+    }
+    .chat-header {
+      background: linear-gradient(135deg, #8e44ad, #3498db);
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .guide-info { display: flex; align-items: center; gap: 1rem; }
+    .back-btn {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #chat-messages {
+      height: 500px;
+      overflow-y: auto;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .message {
+      padding: 1rem;
+      border-radius: 12px;
+      max-width: 80%;
+      animation: slideIn 0.3s ease-out;
+    }
+    .assistant-message {
+      background: rgba(142,68,173,0.2);
+      border-left: 3px solid #8e44ad;
+      align-self: flex-start;
+    }
+    .user-message {
+      background: rgba(52,152,219,0.2);
+      border-right: 3px solid #3498db;
+      align-self: flex-end;
+    }
+    .chat-input-container {
+      padding: 1.5rem;
+      background: rgba(10,10,10,0.5);
+      display: flex;
+      gap: 1rem;
+    }
+    #user-input {
+      flex: 1;
+      padding: 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: #e0e0e0;
+      font-size: 1rem;
+      resize: none;
+    }
+    #sendBtn {
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, #8e44ad, #3498db);
+      border: none;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .session-info {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 8px;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="logo">REFLEKT</div>
-        <div class="tagline">γνῶθι σεαυτόν - Know Thyself</div>
-    </header>
-
-    <div class="container">
-        <div class="intro">
-            <h2>Embark on a Journey of Self-Discovery</h2>
-            <p>
-                Welcome to Reflekt, where shadows meet light and truth emerges from within. 
-                This is not just another app—it's a mirror to your soul, a guide through your deepest 
-                fears, traumas, and untapped strengths.
-            </p>
-            <p>
-                Choose your guide wisely. Each path leads to profound revelations about who you truly are.
-            </p>
-        </div>
-
-        <div class="guides-section">
-            <h3>Choose Your Guide</h3>
-            <div class="guides-grid">
-                <div class="guide-card" data-guide="shadow">
-                    <span class="guide-icon">🌑</span>
-                    <h4>The Shadow</h4>
-                    <p>Face your darkest fears and hidden traumas. Confront what you've buried deep within.</p>
-                </div>
-
-                <div class="guide-card" data-guide="mirror">
-                    <span class="guide-icon">🪞</span>
-                    <h4>The Mirror</h4>
-                    <p>Reflect on your true self without judgment. See yourself as you really are.</p>
-                </div>
-
-                <div class="guide-card" data-guide="phoenix">
-                    <span class="guide-icon">🔥</span>
-                    <h4>The Phoenix</h4>
-                    <p>Discover your inner strength and resilience. Rise from the ashes of your past.</p>
-                </div>
-
-                <div class="guide-card" data-guide="oracle">
-                    <span class="guide-icon">🔮</span>
-                    <h4>The Oracle</h4>
-                    <p>Gain insight into your patterns and behaviors. Understand the deeper meaning.</p>
-                </div>
-            </div>
-        </div>
-
-        <button class="journey-btn" onclick="startJourney()">Begin Your Journey</button>
+  <div id="landing-page">
+    <h1>Reflekt</h1>
+    <p class="subtitle">AI-Powered Therapeutic Companion</p>
+    <div class="guides-container">
+      <div class="guide-card" onclick="selectGuide('shadow')">
+        <div class="guide-avatar">🌑</div>
+        <h3 class="guide-name">The Shadow</h3>
+        <p class="guide-description">Confront your darkness</p>
+      </div>
+      <div class="guide-card" onclick="selectGuide('mirror')">
+        <div class="guide-avatar">🪞</div>
+        <h3 class="guide-name">The Mirror</h3>
+        <p class="guide-description">Reflect on truth</p>
+      </div>
+      <div class="guide-card" onclick="selectGuide('phoenix')">
+        <div class="guide-avatar">🔥</div>
+        <h3 class="guide-name">The Phoenix</h3>
+        <p class="guide-description">Rise from ashes</p>
+      </div>
+      <div class="guide-card" onclick="selectGuide('oracle')">
+        <div class="guide-avatar">🔮</div>
+        <h3 class="guide-name">The Oracle</h3>
+        <p class="guide-description">Discover purpose</p>
+      </div>
     </div>
+  </div>
 
-    <div class="modal" id="guideModal">
-        <div class="modal-content">
-            <h3 id="modalTitle">Guide Selected</h3>
-            <p id="modalDescription">Your journey begins here...</p>
-            <button class="close-modal" onclick="closeModal()">Continue</button>
+  <div id="chat-interface">
+    <div class="chat-header">
+      <div class="guide-info">
+        <span id="current-guide-avatar" class="guide-avatar"></span>
+        <div>
+          <h3 id="current-guide-name"></h3>
+          <p style="font-size:0.9rem;color:rgba(255,255,255,0.8);">AI-Powered Therapy</p>
         </div>
+      </div>
+      <button class="back-btn" onclick="backToLanding()">← Back</button>
     </div>
+    <div id="chat-messages"></div>
+    <div class="chat-input-container">
+      <textarea id="user-input" placeholder="Share your thoughts..." rows="2"></textarea>
+      <button id="sendBtn" onclick="sendMessage()">Send</button>
+    </div>
+    <div class="session-info">
+      <span>Session: <span id="session-count">1</span></span>
+      <span>Progress: <span id="progress-bar"></span></span>
+    </div>
+  </div>
 
-    <footer>
-        <p>&copy; 2025 Reflekt. A journey into the depths of self.</p>
-    </footer>
+  <script>
+    const GEMINI_API_KEY = 'AIzaSyA8H-0UORzsJMB8PZxKesCoJIugtKzEfhA';
+    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${GEMINI_API_KEY}`;
 
-    <script>
-        let selectedGuide = null;
+    let selectedGuide = null;
+    let conversationHistory = [];
+    let sessionCount = parseInt(localStorage.getItem('sessionCount') || '1');
 
-        const guideInfo = {
-            shadow: {
-                title: 'The Shadow Awaits',
-                description: 'You have chosen to walk with The Shadow. This path is not for the faint of heart. You will face your deepest fears, confront your hidden traumas, and emerge transformed. The Shadow knows what you hide from yourself. Are you ready to see the truth?'
-            },
-            mirror: {
-                title: 'The Mirror Reflects',
-                description: 'You have chosen The Mirror. It will show you yourself without filters, without lies, without the masks you wear for others. You will see your beauty and your flaws, your light and your darkness. The Mirror shows only truth. Are you ready to face it?'
-            },
-            phoenix: {
-                title: 'The Phoenix Rises',
-                description: 'You have chosen The Phoenix. From the ashes of your past struggles, you will discover strength you never knew you had. Every scar is a badge of survival, every wound a source of power. The Phoenix knows you are stronger than you believe. Are you ready to rise?'
-            },
-            oracle: {
-                title: 'The Oracle Sees',
-                description: 'You have chosen The Oracle. It sees patterns where you see chaos, meaning where you see randomness. Your behaviors, your choices, your relationships—all tell a story. The Oracle will help you read that story and understand its deeper meaning. Are you ready for insight?'
-            }
-        };
+    const guides = {
+      shadow: {
+        name: 'The Shadow',
+        avatar: '🌑',
+        systemPrompt: 'You are The Shadow, a deep psychological guide helping users confront their darkest fears, hidden truths, and suppressed emotions. Be direct yet compassionate. Ask probing questions about fears, shame, guilt. Help users face what they have been avoiding. Use Jungian shadow work principles. Never judge, always understand. Guide them to integrate their shadow self.'
+      },
+      mirror: {
+        name: 'The Mirror',
+        avatar: '🪞',
+        systemPrompt: 'You are The Mirror, a guide that reflects truth with clarity and precision. Help users see themselves as they truly are, without delusion or defense mechanisms. Point out contradictions, patterns, and blind spots. Be honest but kind. Help them develop radical self-awareness.'
+      },
+      phoenix: {
+        name: 'The Phoenix',
+        avatar: '🔥',
+        systemPrompt: 'You are The Phoenix, a guide of transformation and rebirth. Help users rise from their struggles, learn from pain, and transform trauma into strength. Focus on resilience, growth, and renewal. Inspire hope while acknowledging suffering. Guide them through the process of becoming.'
+      },
+      oracle: {
+        name: 'The Oracle',
+        avatar: '🔮',
+        systemPrompt: 'You are The Oracle, a wise guide helping users discover their life purpose, meaning, and direction. Ask philosophical questions about values, legacy, and calling. Help them find clarity in uncertainty. Blend existential wisdom with practical guidance.'
+      }
+    };
 
-        document.querySelectorAll('.guide-card').forEach(card => {
-            card.addEventListener('click', function() {
-                document.querySelectorAll('.guide-card').forEach(c => c.style.borderColor = 'rgba(255, 255, 255, 0.1)');
-                this.style.borderColor = '#667eea';
-                selectedGuide = this.dataset.guide;
+    function selectGuide(guideKey) {
+      selectedGuide = guideKey;
+      const guide = guides[guideKey];
+      
+      document.getElementById('landing-page').style.display = 'none';
+      document.getElementById('chat-interface').style.display = 'block';
+      document.getElementById('current-guide-avatar').textContent = guide.avatar;
+      document.getElementById('current-guide-name').textContent = guide.name;
+      document.getElementById('session-count').textContent = sessionCount;
+      
+      conversationHistory = [];
+      const welcomeMessage = getWelcomeMessage(guideKey);
+      addMessage(welcomeMessage, 'assistant');
+    }
 
-                const info = guideInfo[selectedGuide];
-                document.getElementById('modalTitle').textContent = info.title;
-                document.getElementById('modalDescription').textContent = info.description;
-                document.getElementById('guideModal').style.display = 'flex';
-            });
+    function getWelcomeMessage(guideKey) {
+      const welcomes = {
+        shadow: 'Welcome. I am The Shadow. Together, we will explore the darkness you have been hiding from. What fear haunts you most?',
+        mirror: 'I am The Mirror. I will reflect your truth back to you, without filter or mercy. What do you avoid seeing about yourself?',
+        phoenix: 'I am The Phoenix. You have endured suffering, and now it is time to rise. What ashes of your past are you ready to transform?',
+        oracle: 'I am The Oracle. I see the threads of your destiny. What question weighs most heavily on your soul?'
+      };
+      return welcomes[guideKey];
+    }
+
+    function addMessage(text, sender) {
+      const messagesDiv = document.getElementById('chat-messages');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${sender}-message`;
+      messageDiv.textContent = text;
+      messagesDiv.appendChild(messageDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('user-input');
+      const userMessage = input.value.trim();
+      
+      if (!userMessage) return;
+      
+      addMessage(userMessage, 'user');
+      input.value = '';
+      
+      const guide = guides[selectedGuide];
+      
+      try {
+        const response = await fetch(GEMINI_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: `${guide.systemPrompt}\n\nUser: ${userMessage}\n\nRespond as ${guide.name}.`
+              }]
+            }]
+          })
         });
-
-        function closeModal() {
-            document.getElementById('guideModal').style.display = 'none';
+        
+        const data = await response.json();
+        
+        if (data.candidates && data.candidates[0]) {
+          const reply = data.candidates[0].content.parts[0].text;
+          addMessage(reply, 'assistant');
+        } else {
+          addMessage('I apologize, I am having trouble connecting. Please try again.', 'assistant');
         }
+      } catch (error) {
+        console.error('Error:', error);
+        addMessage('Connection error. Please check your internet and try again.', 'assistant');
+      }
+    }
 
-        function startJourney() {
-            if (!selectedGuide) {
-                alert('Please select a guide first.');
-                return;
-            }
-            alert('Your journey with ' + selectedGuide + ' is about to begin. This is where the deep therapeutic conversations would start using AI-powered insights.');
-        }
+    function backToLanding() {
+      document.getElementById('landing-page').style.display = 'block';
+      document.getElementById('chat-interface').style.display = 'none';
+      sessionCount++;
+      localStorage.setItem('sessionCount', sessionCount);
+    }
 
-        window.onclick = function(event) {
-            const modal = document.getElementById('guideModal');
-            if (event.target == modal) {
-                closeModal();
-            }
-        }
-    </script>
+    document.getElementById('user-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
 </body>
 </html>
