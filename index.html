@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reflekt - Know Thyself</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 1s ease-in;
+        }
+
+        .logo {
+            font-size: 3em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(102, 126, 234, 0.5);
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            color: #a0a0a0;
+            font-style: italic;
+        }
+
+        .intro {
+            text-align: center;
+            padding: 60px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: slideUp 1s ease-out 0.3s both;
+        }
+
+        .intro h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .intro p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            color: #b0b0b0;
+            margin-bottom: 20px;
+        }
+
+        .guides-section {
+            padding: 40px 20px;
+            animation: fadeIn 1.5s ease-in 0.6s both;
+        }
+
+        .guides-section h3 {
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 40px;
+            color: #ffffff;
+        }
+
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .guide-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .guide-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .guide-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: #667eea;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.3);
+        }
+
+        .guide-card:hover::before {
+            opacity: 0.1;
+        }
+
+        .guide-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .guide-card h4 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .guide-card p {
+            color: #b0b0b0;
+            line-height: 1.6;
+        }
+
+        .journey-btn {
+            display: block;
+            width: fit-content;
+            margin: 40px auto;
+            padding: 18px 50px;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #ffffff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .journey-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        .journey-btn:active {
+            transform: translateY(-1px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideUp 0.4s ease;
+        }
+
+        .modal-content h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .modal-content p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #b0b0b0;
+            margin-bottom: 30px;
+        }
+
+        .close-modal {
+            padding: 12px 30px;
+            font-size: 1.1em;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">REFLEKT</div>
+        <div class="tagline">γνῶθι σεαυτόν - Know Thyself</div>
+    </header>
+
+    <div class="container">
+        <div class="intro">
+            <h2>Embark on a Journey of Self-Discovery</h2>
+            <p>
+                Welcome to Reflekt, where shadows meet light and truth emerges from within. 
+                This is not just another app—it's a mirror to your soul, a guide through your deepest 
+                fears, traumas, and untapped strengths.
+            </p>
+            <p>
+                Choose your guide wisely. Each path leads to profound revelations about who you truly are.
+            </p>
+        </div>
+
+        <div class="guides-section">
+            <h3>Choose Your Guide</h3>
+            <div class="guides-grid">
+                <div class="guide-card" data-guide="shadow">
+                    <span class="guide-icon">🌑</span>
+                    <h4>The Shadow</h4>
+                    <p>Face your darkest fears and hidden traumas. Confront what you've buried deep within.</p>
+                </div>
+
+                <div class="guide-card" data-guide="mirror">
+                    <span class="guide-icon">🪞</span>
+                    <h4>The Mirror</h4>
+                    <p>Reflect on your true self without judgment. See yourself as you really are.</p>
+                </div>
+
+                <div class="guide-card" data-guide="phoenix">
+                    <span class="guide-icon">🔥</span>
+                    <h4>The Phoenix</h4>
+                    <p>Discover your inner strength and resilience. Rise from the ashes of your past.</p>
+                </div>
+
+                <div class="guide-card" data-guide="oracle">
+                    <span class="guide-icon">🔮</span>
+                    <h4>The Oracle</h4>
+                    <p>Gain insight into your patterns and behaviors. Understand the deeper meaning.</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="journey-btn" onclick="startJourney()">Begin Your Journey</button>
+    </div>
+
+    <div class="modal" id="guideModal">
+        <div class="modal-content">
+            <h3 id="modalTitle">Guide Selected</h3>
+            <p id="modalDescription">Your journey begins here...</p>
+            <button class="close-modal" onclick="closeModal()">Continue</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Reflekt. A journey into the depths of self.</p>
+    </footer>
+
+    <script>
+        let selectedGuide = null;
+
+        const guideInfo = {
+            shadow: {
+                title: 'The Shadow Awaits',
+                description: 'You have chosen to walk with The Shadow. This path is not for the faint of heart. You will face your deepest fears, confront your hidden traumas, and emerge transformed. The Shadow knows what you hide from yourself. Are you ready to see the truth?'
+            },
+            mirror: {
+                title: 'The Mirror Reflects',
+                description: 'You have chosen The Mirror. It will show you yourself without filters, without lies, without the masks you wear for others. You will see your beauty and your flaws, your light and your darkness. The Mirror shows only truth. Are you ready to face it?'
+            },
+            phoenix: {
+                title: 'The Phoenix Rises',
+                description: 'You have chosen The Phoenix. From the ashes of your past struggles, you will discover strength you never knew you had. Every scar is a badge of survival, every wound a source of power. The Phoenix knows you are stronger than you believe. Are you ready to rise?'
+            },
+            oracle: {
+                title: 'The Oracle Sees',
+                description: 'You have chosen The Oracle. It sees patterns where you see chaos, meaning where you see randomness. Your behaviors, your choices, your relationships—all tell a story. The Oracle will help you read that story and understand its deeper meaning. Are you ready for insight?'
+            }
+        };
+
+        document.querySelectorAll('.guide-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.guide-card').forEach(c => c.style.borderColor = 'rgba(255, 255, 255, 0.1)');
+                this.style.borderColor = '#667eea';
+                selectedGuide = this.dataset.guide;
+
+                const info = guideInfo[selectedGuide];
+                document.getElementById('modalTitle').textContent = info.title;
+                document.getElementById('modalDescription').textContent = info.description;
+                document.getElementById('guideModal').style.display = 'flex';
+            });
+        });
+
+        function closeModal() {
+            document.getElementById('guideModal').style.display = 'none';
+        }
+
+        function startJourney() {
+            if (!selectedGuide) {
+                alert('Please select a guide first.');
+                return;
+            }
+            alert('Your journey with ' + selectedGuide + ' is about to begin. This is where the deep therapeutic conversations would start using AI-powered insights.');
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('guideModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
